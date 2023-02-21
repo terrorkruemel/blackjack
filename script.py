@@ -42,7 +42,7 @@ symbols = {"A":"""
                 *       *
                 *   A   *
                 *       *
-                *      A*
+                *     A *
                 *********
             """,
             "2":"""
@@ -203,8 +203,7 @@ player_num = input("How many players are playing against the dealer ?\n")
 print("There will be " + str(player_num) + " players.")
 print("________________________________________________")
 Cards = cards()
-for i in range(len(player_num)):
-    print(i)
+for i in range(player_num):
+    print(range(len(player_num)))
     player ={i:action(i)}
     print(player)
-
