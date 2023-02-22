@@ -15,6 +15,7 @@ class cards:
         self.drawn.append(face[num])
 
         return self.drawn
+    
     def check_numbers(self,hand):
 
         self.sum = 0
@@ -29,10 +30,66 @@ class cards:
 
         return self.sum
      
+    def action(self,j):
+        self.hand = []
+        self.count = 0
+        
+        self.drawn = self.clear_list()
 
+        print("Player", str(int(j)+1) ,":")
+        self.hand = self.drawn_cards()
+        print(symbols[self.hand[0]])
 
+        while input("Hit or pass ? (Write hit or pass\n)") != "pass":
+            
+            self.hand = self.drawn_cards()
 
+            for i in self.hand:
+
+                if self.count <= 21:
+
+                    own = symbols[i]
+                    print(own +"\t")
+                    self.count = self.check_numbers(self.hand)
+
+                elif self.count > 21:
+
+                    print("Player", str(int(j)+1),"lost.")
+
+                    return self.hand,self.count
+            
+        
+        return self.hand,self.count
     
+    def clear_list(self):
+
+        if len(self.drawn) > 0:
+            for i in range(len(self.drawn)):
+                self.drawn.pop()
+
+        return self.drawn
+
+
+    def dealer(self):
+        self.deal = []
+        self.amount = 0
+        self.deal = self.drawn_cards()
+        print(symbols[self.deal[0]])
+        while self.amount <= 21:
+            for i in self.deal:
+
+                self.deal = self.drawn_cards()
+
+                face = symbols[i]
+                print(face)
+                self.amount = self.check_numbers(self.deal)
+                if self.amount <= 21 and self.amount >=18: 
+                    
+                    return self.deal, self.amount
+                elif self.amount > 21:
+
+                    return "The Dealer lost!" 
+
         
 
 
@@ -42,7 +99,7 @@ symbols = {"A":"""
                 *       *
                 *   A   *
                 *       *
-                *     A *
+                *      A*
                 *********
             """,
             "2":"""
@@ -141,7 +198,7 @@ symbols = {"A":"""
                 * Q   Q *
                 * Q   Q *
                 *  QQQ  *
-                *     QQ *
+                *    QQ *
                 *********
             """,
             "K":"""
@@ -154,29 +211,6 @@ symbols = {"A":"""
                 *********
             """
             }
-
-def action(i):
-    hand = []
-
-    print("Player", str(int(i)+1) ,":")
-
-    hand = Cards.drawn_cards()
-
-    print(hand)
-    
-    sum = 0
-
-    while input("Hit or pass ? (Write hit or pass\n)") != "pass" and sum <= 21:
-        hand = Cards.drawn_cards()
-        for i in hand:
-            own = symbols[i]
-            print(own +"\t")
-        sum = Cards.check_numbers(hand)
-    return hand,sum
-
-
-
-
 
 
 
@@ -202,8 +236,10 @@ print("""
 player_num = input("How many players are playing against the dealer ?\n")
 print("There will be " + str(player_num) + " players.")
 print("________________________________________________")
-Cards = cards()
-for i in range(player_num):
-    print(range(len(player_num)))
-    player ={i:action(i)}
+for i in range(int(player_num)):
+    Cards = cards()
+    player ={i:Cards.action(i)}
     print(player)
+
+dealer = Cards.dealer()
+print(dealer)
